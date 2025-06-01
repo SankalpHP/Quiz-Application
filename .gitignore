@@ -1,0 +1,29 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/quiz-application-UI/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+quiz-application-UI/node_modules
+quiz-application-BE/node_modules
+npm-debug.log
+yarn-error.log
+.env
+/quiz-application-UI/.vscode
+
+
+# Miscellaneous
+/quiz-application-UI/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db

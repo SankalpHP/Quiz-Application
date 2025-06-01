@@ -1,0 +1,257 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="d-flex gap-2 mb-3">
+        <button type="button" class="btn btn-outline-primary" (click)="Switch('Exam')">Exam</button>
+        <button type="button" class="btn btn-outline-primary" (click)="Switch('Question')">Question</button>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" [hidden]="showExam">
+            <!-- Bind Form to formGroup -->
+            <form [formGroup]="ExamForm" (ngSubmit)="ExamUpdatedForm()">
+                <div class="row">
+                    <div class="col mb-3">
+                      <label for="formGroupExampleInput" class="form-label">Exam Name <span style="color: red;">*</span></label>
+                      <input type="text" class="form-control" formControlName="examName">
+                      <!-- validation message -->
+                        @if(ExamForm.get('examName').hasError('required')){
+                          <label class="form-label" style="color: red;">Exam Name is required</label>
+                        } 
+                    </div>
+                    <div class="col mb-3">
+                      <label for="formGroupExampleInput" class="form-label">Exam Duration <span style="color: red;">*</span></label>
+                      <input type="number" class="form-control" formControlName="examDuration">
+                      <!-- validation message -->
+                       @if(ExamForm.get('examDuration').hasError('required')){
+                          <label class="form-label" style="color: red;">Exam Duration is required</label>
+                       }
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col mb-3">
+                      <label for="formGroupExampleInput" class="form-label">Category <span style="color: red;">*</span></label>
+                      <select class="form-select" formControlName="category" (change)="SubCategorySet()">
+                        @for (category of categoryArray; track $index) {
+                             <!-- {{}} = String Interpolation -->
+                            <option style="font-size: 15px;" value={{category.category}}>{{category.category}}</option>
+                        }
+                      </select>
+                       <!-- validation message -->
+                       @if(ExamForm.get('category').hasError('required')){
+                        <label class="form-label" style="color: red;">Category is required</label>
+                      }
+                    </div>
+                    <div class="col mb-3">
+                      <label for="formGroupExampleInput" class="form-label">Sub Category <span style="color: red;">*</span></label>
+                      <select class="form-select" formControlName="subcategory">
+                        @for (subCategory of subCategoryArray; track $index) {
+                             <!-- {{}} = String Interpolation -->
+                            <option style="font-size: 15px;" value={{subCategory}}>{{subCategory}}</option>
+                        }
+                    </select>
+                       <!-- validation message -->
+                      @if(ExamForm.get('subcategory').hasError('required')){
+                        <label class="form-label" style="color: red;">Subcategory is required</label>
+                      }
+                    </div>
+                 </div>
+                 <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateExamModal">Update</button>
+                 </div>
+            </form>
+        </div>
+        <div class="col-lg-12" [hidden]="showQuestions">
+            <div class="d-flex justify-content-end mb-2">
+                <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#questionModalLabel" (click)="QuestionInitializeForm('add')">Add Question</button>
+            </div>
+        </div>
+        <!-- questions -->
+        <div class="container-fluid" [hidden]="showQuestions">
+          @if(Question){
+            @for (que of Question; track $index) {
+              <div class="col">
+                <div class="card mb-3">
+                  <div class="card-body d-flex justify-content-between">
+                    <h5 class="card-title">Q{{$index + 1 + ")"}} {{que.question}}</h5>
+                    <div>
+                      <button type="button" class="btn" style="margin: 2px;border-color: green;" data-bs-toggle="modal" data-bs-target="#questionModalLabel" (click)="QuestionInitializeForm(que)" ><img src="assets/Images/pencil.png" height="15px" alt="pencil"></button>
+                      <button type="button" class="btn" style="margin: 2px;border-color: red;"><img src="assets/Images/trash.png" height="15px" alt="trash" (click)="QuestionFormSubmit({type:'Delete',_id:que._id})"></button>
+                    </div>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Option a : {{que.options.a}}</li>
+                      <li class="list-group-item">Option b : {{que.options.b}}</li>
+                      <li class="list-group-item">Option c : {{que.options.c}}</li>
+                      <li class="list-group-item">Option d : {{que.options.d}}</li>
+                      <li class="list-group-item">correct option : {{que.correct}}</li>
+                  </ul>
+                </div>
+              </div>
+            }
+          }@else{
+            <div class="alert alert-light" role="alert">
+                  No question found
+            </div>
+          }
+      </div>
+    </div>
+</div>
+
+
+
+<!-- Question Form Modal -->
+<div class="modal fade" id="questionModalLabel" tabindex="-1" aria-labelledby="questionModalLabel">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        @if (!showMsg) {
+          <h1 class="modal-title fs-5" id="exampleModalLabel">{{QuestionFormType}}</h1>
+        }
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (showMsg) {
+          <p style="color: green;text-align: center;font-size: 25px;">{{message}}</p> 
+        }@else {
+            <!-- Bind the form to 'QuestionForm' FormGroup  -->
+            <form [formGroup]="QuestionForm">
+              <div class="row">
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="examName" class="form-label">Question<span style="color: red;">*</span></label>
+                          <!-- Input field for 'examName', bound to FormControl 'examName'  -->
+                          <input type="text" class="form-control" formControlName="question">
+                          <!-- validation message -->
+                           @if(QuestionForm.get('question')?.touched || QuestionForm.get('question').dirty){
+                              @if(QuestionForm.get('question').hasError('required')){
+                                <label style="color: red;" class="form-label">question is required</label>
+                              }
+                           }
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                      <label for="ExamDuration" class="form-label">Option a<span style="color: red;">*</span></label>
+                      <!-- Input field for 'ExamDuration', bound to FormControl 'examDuration'  -->
+                      <input type="text" class="form-control" formControlName="a">
+                      <!-- validation message -->
+                       @if(QuestionForm.get('a').touched){
+                          @if(QuestionForm.get('a').hasError('required')){
+                            <label style="color: red;" class="form-label">option a is required</label>
+                          }
+                       }
+                  </div>
+              </div>
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="Category" class="form-label">Option b<span style="color: red;">*</span></label>
+                           <!-- Input field for 'Category', bound to FormControl 'category'  -->
+                           <input type="text" class="form-control" formControlName="b">
+                          <!-- validation message -->
+                           @if(QuestionForm.get('b').touched){
+                             @if(QuestionForm.get('b').hasError('required')){
+                               <label style="color: red;" class="form-label">option b is required</label>
+                             }
+                           }
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                    <div class="mb-3">
+                        <label for="Category" class="form-label">Option c<span style="color: red;">*</span></label>
+                        <!-- Input field for 'Sub Category', bound to FormControl 'subcategory'  -->
+                        <input type="text" class="form-control" formControlName="c">
+                        <!-- validation message -->
+                        @if(QuestionForm.get('c').touched){
+                            @if(QuestionForm.get('c').hasError('required')){
+                              <label style="color: red;" class="form-label">option c is required</label>
+                            }
+                        }
+                    </div>
+                 </div>
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="TotalMarks" class="form-label">Option d<span style="color: red;">*</span></label>
+                           <!-- Input field for 'TotalMarks', bound to FormControl 'totalMarks'  -->
+                          <input type="text" class="form-control" formControlName="d">
+                          <!-- validation message -->
+                           @if(QuestionForm.get('d').touched){
+                             @if(QuestionForm.get('d').hasError('required')){
+                               <label style="color:red;" class="form-label">option d is required</label>
+                             }
+                           }
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                    <div class="mb-3">
+                        <label for="PassingMarks" class="form-label">Correct option<span style="color: red;">*</span></label>
+                        <!-- Input field for 'PassingMarks', bound to FormControl 'passingMarks'  -->
+                        <select class="form-select" formControlName="correct">
+                          <option value="a">Option a</option>
+                          <option value="b">Option b</option>
+                          <option value="c">Option c</option>
+                          <option value="d">Option d</option>
+                        </select>
+                        <!-- validation message -->
+                        @if(QuestionForm.get('correct').touched){
+                            @if(QuestionForm.get('correct').hasError('required')){
+                              <label style="color: red;" class="form-label">correct option is required</label>
+                            }
+                        }
+                  </div>
+                </div>
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="PassingMarks" class="form-label">Marks<span style="color: red;">*</span></label>
+                          <!-- Input field for 'PassingMarks', bound to FormControl 'passingMarks'  -->
+                          <select class="form-select" formControlName="marks">
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=5>5</option>
+                          </select>
+                          <!-- validation message -->
+                          @if(QuestionForm.get('marks').touched){
+                              @if(QuestionForm.get('marks').hasError('required')){
+                                <label style="color: red;" class="form-label">marks is required</label>
+                              }
+                          }
+                    </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row-reverse">
+                  <!-- Form Submit Button -->
+                   @if(QuestionFormType === "Add Question"){
+                    <button type="submit" class="btn btn-outline-success" (click)="QuestionFormSubmit('Add')" [disabled]="QuestionForm.invalid">Submit</button>
+                   }@else{
+                    <button type="submit" class="btn btn-outline-success" (click)="QuestionFormSubmit('Update')" [disabled]="QuestionForm.invalid">Update</button>
+                   }
+              </div>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Update Exam Modal -->
+<div class="modal fade" id="updateExamModal" tabindex="-1" aria-labelledby="updateExamModalLabel">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p style="color: green;text-align: center;font-size: 25px;">{{message}}</p> 
+      </div>
+      <!-- <div class="modal-footer">
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<nav class="navbar mb-3" style="background-color: #4A766E;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="color: #FFFFFF;"><img src="assets/Images/ideas.png" alt="ideas.png" height="40px"> CODE SPIDER</a>
+    <button class="btn" style="background-color: #FFFFFF;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 300px;">
+      <div class="offcanvas-header" style="background-color: #fdf5df;">
+        <h5 style="cursor: pointer;" class="offcanvas-title" id="offcanvasNavbarLabel"><img src="assets/Images/ideas.png" alt="ideas.png" height="40px"> CODE SPIDER</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item mt-1">
+            <div class="d-flex gap-1 align-items-center"><img src="assets/Images/home.png"  height="22px">
+                <a class="nav-link" routerLink="/home">Home</a>
+            </div>
+          </li>
+          @if(adminBtn){
+            <li class="nav-item mt-1">
+              <div class="d-flex gap-1 align-items-center">
+                  <a class="nav-link" routerLink="/exams"><img src="assets/Images/exam.png"  height="22px"> Exams</a>
+              </div>
+            </li>
+             <li class="nav-item mt-1">
+              <div class="d-flex gap-1 align-items-center">
+                  <a class="nav-link" routerLink="/adminpanel"><img src="assets/Images/exam.png"  height="22px"> Admin</a>
+              </div>
+            </li>
+          }
+          <li class="nav-item mt-1">
+            <div class="d-flex gap-1 align-items-center"><img src="assets/Images/analysis.png"  height="22px">
+              <a class="nav-link" routerLink="/report">Report</a>
+            </div>
+          </li>
+          <li class="nav-item mt-1">
+            <div class="d-flex gap-1 align-items-center"><img src="assets/Images/user.png"  height="22px">
+              <a class="nav-link" [routerLink]="['/profile',paylaod.id]">Profile</a>
+            </div>
+          </li>
+          <li class="nav-item mt-1" style="cursor: pointer;">
+            <div class="d-flex gap-1 align-items-center"><img src="assets/Images/quit.png"  height="22px">
+              <a class="nav-link"  (click)="logOut()">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

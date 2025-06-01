@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5 class="card-title">Hello, {{userName}}!👋Here’s your Assessment Overview</h5> 
+                </div>
+            </div>
+            <div class="card mt-3 mb-3">
+                <div class="card-body">
+                     <ul class="list-group mb-3">
+                        @if(attemptedQuestion.length){
+                            <h5 class="card-title">Attempted Questions</h5>
+                            @for (attempted of attemptedQuestion; track $index) {
+                                <li class="list-group-item">Q{{$index + 1 + ")"}} {{attempted.question}}</li>
+                                <li class="list-group-item" [style.background-color]="'a' == attempted.correct?'#198754':''"
+                                [style.color]="'a' == attempted.correct ? 'white' : ''">A. {{attempted.options.a}}</li>
+                                <li class="list-group-item" [style.background-color]="'b' == attempted.correct ?'#198754':''"
+                                 [style.color]="'b' == attempted.correct ? 'white' : ''">B. {{attempted.options.b}}</li>
+                              
+                                <li class="list-group-item" [style.background-color]="'c' == attempted.correct?'#198754':''"  
+                                [style.color]="'c' == attempted.correct ? 'white' : ''">C. {{attempted.options.c}}</li>
+                                <li class="list-group-item" [style.background-color]="'d' == attempted.correct?'#198754':''" 
+                                [style.color]="'d' == attempted.correct ? 'white' : ''">D. {{attempted.options.d}}</li>
+                                <li class="list-group-item mb-3" [style.background-color]="attempted.isCorrect?'#75B798':'#dc3545'" style="color: white;">Selected => {{attempted.userSelected}}</li>
+                            }
+                        }
+                     </ul>
+                        <ul class="list-group" *ngIf="unattemptedQuestions.length">
+                            <h5 class="card-title">Unattempted Questions</h5>
+                            <ng-container *ngFor="let unattempted of unattemptedQuestions; let i = index">
+                                <li class="list-group-item">
+                                Q{{ i + 1 + ")"}} {{ unattempted.question }}
+                                </li>
+
+                                <!-- loop through options a–d -->
+                                <li
+                                class="list-group-item"
+                                *ngFor="let key of ['a','b','c','d']"
+                                [style.background-color]="
+                                    key === unattempted.correct ? '#198754' : ''
+                                "
+                                [style.color]="
+                                    key === unattempted.correct ? 'white' : ''
+                                ">
+                                {{ key.toUpperCase() }}. {{ unattempted.options[key] }}
+                                </li>
+
+                                <!-- spacer if you like -->
+                                <li class="list-group-item mb-3"></li>
+                            </ng-container>
+                        </ul>
+
+
+                         <div class="table-responsive">
+                            <table class="table align-middle table-bordered">
+                                <thead>
+                                <tr style="text-align: center;">
+                                    <th>Total Marks</th>
+                                    <th>Obtained Marks</th>
+                                    <th>Precentage</th>
+                                    <th>Result</th>
+                                </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                @if(examRecords!= undefined){
+                                        <tr>
+                                            <td>{{examRecords.totalMarks[0].totalMarks}}</td>
+                                            <td>{{examRecords.obtainedMarks[0].obtainedMarks}}</td>
+                                            <td>{{examRecords.percentage}}</td>
+                                            <td>{{examRecords.percentage>50?'pass':'failed'}}</td>
+                                        </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-success" routerLink="/report">back</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

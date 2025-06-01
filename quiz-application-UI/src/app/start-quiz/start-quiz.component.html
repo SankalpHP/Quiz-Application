@@ -1,0 +1,60 @@
+<app-navbar></app-navbar>
+<div class="container">
+        <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-end mt-4">
+                        @if(showQuiz){
+                            <span style="height: 100px; width: 180px;border-radius: 10px;border:solid 2px red;background: white">
+                                <p style="text-align: center;margin-top: 10px;font-size: 50px;font-family: 'Orbitron', sans-serif;">{{displayTimer}}</p>
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12 mt-2">
+                    <div>
+                        @if (showQuiz) {
+                            <div class="card mt-4">
+                                <div class="card-body" style="cursor: pointer;">
+                                    <p class="card-title" style="font-size: 40px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{question.question}}</p>
+                                    <ul class="list-group list-group-flush" style="font-size: 25px;font-family: 'Courier New', Courier, monospace">
+                                        <li [ngClass]="{'list-group-item-primary':selectedOption === question.options.a}" class="list-group-item" (click)="questionSubmit(question.options.a)">
+                                            A. {{question.options.a}}
+                                        </li>
+                                        <li [ngClass]="{'list-group-item-primary':selectedOption === question.options.b}" class="list-group-item" (click)="questionSubmit(question.options.b)">
+                                            B. {{question.options.b}}
+                                        </li>
+                                        <li [ngClass]="{'list-group-item-primary':selectedOption === question.options.c}" class="list-group-item" (click)="questionSubmit(question.options.c)">
+                                            C. {{question.options.c}}
+                                        </li>
+                                        <li [ngClass]="{'list-group-item-primary':selectedOption === question.options.d}" class="list-group-item" (click)="questionSubmit(question.options.d)">
+                                            D. {{question.options.d}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-outline-danger mt-3 btn-lg" (click)="nextQuestion(btnType)">{{btnType}}</button>
+                            </div>
+                        }@else {
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 align-self-center">
+                                            <img class="rounded mx-auto d-block img-fluid" src="assets/Images/congrats.png" alt="congrats" height="400px">
+                                        </div>
+                                        <div class="col-lg-9 align-self-center">
+                                            <p style="font-size: 40px;font-family: 'Courier New', Courier, monospace;">{{question}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                            <button class="btn btn-outline-success btn-lg" routerLink="/report">Reports</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+        </div>
+</div>

@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-2">
+                    <div class="card-body">
+                          <h5 class="card-title">Registered Members List</h5> 
+                    </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table class="table align-middle text-center table-bordered">
+                    <thead>
+                        <tr class="align-middle">
+                            <th rowspan="2">Name</th>
+                            <th rowspan="2">Email</th>
+                            <th rowspan="2">Age</th>
+                            <th colspan="2">Location</th>
+                            <th rowspan="2">Profession</th>
+                            <th rowspan="2">Details</th>
+                        </tr>
+                        <tr>
+                            <th>Country</th>
+                            <th>State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(this.userDetails){
+                            @for (user of this.userDetails; track $index) {
+                                <tr>
+                                    <td>{{user?.name}}</td>
+                                    <td>{{user?.email}}</td>
+                                    <td>{{user?.age}}</td>
+                                    <td>{{user?.location?.country}}</td>
+                                    <td>{{user?.location?.state}}</td>
+                                    <td>{{user?.profession}}</td>
+                                    <td><button type="button" class="btn btn-outline-danger" [routerLink]="['/adminpaneldetails',user._id]">view</button></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/Images/welcome.png" height="50px" alt="Welcome"><h4 class="card-title">Good to see you, {{userName}}!</h4>
+                        </div>
+                    </div>
+              </div>
+        </div>
+    </div>
+    <div class="card mb-3 mt-3">
+        <div class="row g-0">
+          <div class="col-md-4 align-self-start">
+            <img src="assets/Images/user.png" class="rounded mx-auto d-block mt-5" alt="profile" height="250px">
+          </div>
+          <div class="col-md-8">
+                <form [formGroup]="profileForm" class="mt-2" style="padding: 12px;" (ngSubmit)="submitProfile()">
+                    <div class="mb-2">
+                        <span class="d-flex">
+                            <label for="name" class="form-label">Name</label>
+                            <p style="color: red;">*</p>
+                        </span>
+                        <input formControlName="name" type="text" class="form-control" id="name">
+                        <!-- validators -->
+                        @if(profileForm.get('name')?.touched){
+                            @if(profileForm.get('name')?.hasError('required')){
+                              <p style="width: 100%;" style="color: red;">name is required</p>
+                            }
+                          }
+                    </div>
+                    <div class="mb-2">
+                        <span class="d-flex">
+                            <label for="email" class="form-label">Email</label>
+                            <p style="color: red;">*</p>
+                        </span>
+                        <input formControlName="email" type="email" class="form-control" id="email">
+                        <!-- validators -->
+                        @if(profileForm.get('email')?.touched){
+                            @if(profileForm.get('email')?.hasError('required')){
+                                <p style="width: 100%;" style="color: red;">email is required</p>
+                              }
+                            @if(profileForm.get('email')?.hasError('email')){
+                                <p style="width: 100%;" style="color: red;">invalid email format</p>
+                            }  
+                          }
+                    </div>
+                    <div class="mb-2">
+                        <span class="d-flex">
+                            <label for="age" class="form-label">Age</label>
+                            <p style="color: red;">*</p>
+                        </span>
+                        <input formControlName="age" type="number" class="form-control" id="age">
+                        @if(profileForm.get('age')?.touched){
+                            @if(profileForm.get('age')?.hasError('required')){
+                              <p style="width: 100%;" style="color: red;">age is required</p>
+                            }
+                          }
+                    </div>
+                    <div class="mb-2 d-flex gap-5">
+                        <div style="width: 350px;">
+                            <label for="country" class="form-label">Country</label>
+                            <select formControlName="country" class="form-select" aria-label="Default select example" (click)="selectState()">
+                                <option  value=""  selected>Select the country</option>
+                                @for (item of country; track $index) {
+                                    <option value="{{item}}">{{item}}</option>
+                                }
+                              </select>
+                        </div>
+                        <div style="width: 350px;">
+                            <label for="state" class="form-label">State</label>
+                            <select formControlName="state" class="form-select" aria-label="Default select example">
+                                <option selected>Select the state</option>
+                                @for (state of states; track $index) {
+                                    <option value="{{state}}">{{state}}</option>
+                                }
+                              </select>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="profession" class="form-label">Profession</label>
+                        <input formControlName="profession" type="text" class="form-control" id="profession">
+                    </div>
+                    <div class="mb-2 d-flex justify-content-end">
+                        <div>
+                            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateRegisterModal" [disabled]="profileForm.invalid">Update</button>
+                        </div>
+                    </div>
+              </form>
+          </div>
+        </div>
+    </div>
+</div> 
+
+
+
+<!-- Update Exam Modal -->
+<div class="modal fade" id="updateRegisterModal" tabindex="-1" aria-labelledby="updateRegisterModal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p style="color: green;text-align: center;font-size: 25px;">{{updatemsg}}</p> 
+      </div>
+      <!-- <div class="modal-footer">
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+       <div class="col-lg-12">
+            <div class="card mb-2">
+                    <div class="card-body">
+                          <h5 class="card-title">Exam Attempted By {{username}}</h5> 
+                    </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                @if(showAttemptedExam){              
+                  <table class="table align-middle table-bordered">
+                        <thead>
+                          <tr style="text-align: center;">
+                            <th>Exam Name</th>
+                            <th>Category</th>
+                            <th>Subcategory</th>
+                            <th>Exam Duration</th>
+                            <th>Details</th>
+                          </tr>
+                        </thead>
+                        <tbody style="text-align: center;">
+                        
+                              @for (attempted of attemptedExam; track $index) {
+                                <tr>
+                                    <td>{{attempted.examName}}</td>
+                                    <td>{{attempted.category}}</td>
+                                    <td>{{attempted.subcategory}}</td>
+                                    <td>{{attempted.examDuration}}</td>
+                                    <td><button class="btn btn-outline-danger" (click)="sendId(attempted.userId,attempted.examId)">view</button></td>
+                                </tr>
+                              }
+                        </tbody>
+                  </table>
+                }@else {
+                        <div class="card mb-2">
+                              <div class="card-body">
+                                    <h6 class="card-title">{{username}} haven't attempted any exams yet.</h6> 
+                              </div>
+                        </div>
+                      }
+            </div>
+        </div>
+    </div>
+</div>

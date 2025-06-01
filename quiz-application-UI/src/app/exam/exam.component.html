@@ -1,0 +1,154 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mt-1 mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h3>Exams</h3>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ExamModal" (click)="showMsgBox('Add')">Add Exam</button>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="overflow-x-auto">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">Exam Name</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Sub category</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Exams) {
+                                @for (exam of Exams; track $index) {
+                                    <tr>
+                                    <!-- {{}} = String Interpolation -->
+                                        <td>{{exam.examName}}</td>
+                                        <td>{{exam.examDuration}}</td>
+                                        <td>{{exam.category}}</td>
+                                        <td>{{exam.subcategory}}</td>
+                                        <td>
+                                            <button type="button" class="btn" style="margin: 2px;border-color: green;" [routerLink]="['/question',exam._id]" ><img src="assets/Images/pencil.png" height="25px" alt="pencil"></button>
+                                            <button type="button" class="btn" style="margin: 2px;border-color: red;" (click)="RemoveExams(exam._id)"><img src="assets/Images/trash.png" height="25px" alt="trash"></button>
+                                        </td>
+                                  </tr>
+                                }
+                            }
+                        </tbody>
+                      </table>
+                      @if(Exams == false){
+                        <div class="alert alert-light" role="alert">
+                            No exams found!
+                        </div>
+                      }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Exam Modal -->
+  <div class="modal fade" id="ExamModal" tabindex="-1" aria-labelledby="ExamModalLabel">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          @if(!showMsg){
+            <h1 class="modal-title fs-5" id="ExamModalLabel">Add Exam</h1>
+          }
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            @if (showMsg) {
+                <p style="color: green;text-align: center;font-size: 25px;">{{message}}</p>  
+            }@else{
+                <!-- Bind the form to 'ExamForm' FormGroup  -->
+                <!-- (ngSubmit) triggers 'ExamFormSubmit()' method when the form is submitted  -->
+                <form [formGroup]="ExamForm" (ngSubmit)="ExamFormSubmit()">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="examName" class="form-label">Exam Name <span style="color: red;">*</span></label>
+                                <!-- Input field for 'examName', bound to FormControl 'examName'  -->
+                                <input type="text" class="form-control" formControlName="examName">
+                                <!-- validation message -->
+                                @if (ExamForm.get('examName')?.touched || ExamForm.get('examName')?.dirty) {
+                                    @if (ExamForm.get('examName')?.hasError('required')) {
+                                        <label style="color: red;" class="form-label">Exam Name is required</label>
+                                    }
+                                    @if (ExamForm.get('examName')?.hasError('pattern')) {
+                                        <label style="color: red;" class="form-label">No whitespaces are allowed at start and end</label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="ExamDuration" class="form-label">Exam Duration <span style="color: red;">*</span></label>
+                                <!-- Input field for 'ExamDuration', bound to FormControl 'examDuration'  -->
+                                <input type="number" class="form-control" formControlName="examDuration">
+                                <!-- validation message -->
+                                @if (ExamForm.get('examDuration')?.touched || ExamForm.get('examDuration')?.dirty) {
+                                    @if (ExamForm.get('examDuration')?.hasError('required')) {
+                                        <label style="color: red;" class="form-label">Exam Duration is required</label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="Category" class="form-label">Category <span style="color: red;">*</span></label>
+                                <!-- Input field for 'Category', bound to FormControl 'category'  -->
+                                <select class="form-select" formControlName="category" (change)="SubCategorySet()">
+                                    @for (category of categoryArray; track $index) {
+                                        <!-- {{}} = String Interpolation -->
+                                        <option style="font-size: 15px;" value={{category.category}}>{{category.category}}</option>
+                                    }
+                                </select>
+                                <!-- validation message -->
+                                @if (ExamForm.get('category')?.touched || ExamForm.get('category')?.dirty) {
+                                    @if(ExamForm.get('category')?.hasError('required')){
+                                        <label style="color: red;" class="form-label">Category is required</label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="Category" class="form-label">Sub Category <span style="color: red;">*</span></label>
+                                <!-- Input field for 'Sub Category', bound to FormControl 'subcategory'  -->
+                                <select class="form-select" formControlName="subcategory">
+                                    @for (subCategory of subCategoryArray; track $index) {
+                                        <!-- {{}} = String Interpolation -->
+                                        <option style="font-size: 15px;" value={{subCategory}}>{{subCategory}}</option>
+                                    }
+                                </select>
+                                <!-- validation message -->
+                                @if (ExamForm.get('subcategory')?.touched || ExamForm.get('subcategory')?.dirty) {
+                                    @if(ExamForm.get('subcategory')?.hasError('required')){
+                                        <label style="color: red;" class="form-label">Sub Category is required</label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                        <!-- Form Submit Button -->
+                        <button type="submit" class="btn btn-outline-success" [disabled]="ExamForm.invalid">Submit</button>
+                    </div>
+                </form>
+            }
+        </div>
+      </div>
+    </div>
+  </div>
+
