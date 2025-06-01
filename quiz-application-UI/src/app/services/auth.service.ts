@@ -10,7 +10,8 @@ export class AuthService {
   // Inject httpClient service for api method calling
   constructor(private http:HttpClient) { }
 
-  URL:String = "http://localhost:3000/";
+  // URL:String = "http://localhost:3000/";
+   URL:String = "http://65.1.106.176:5000";
  
   // user Login
   Login(body:any):Observable<any>{ // returns the observer of any type
