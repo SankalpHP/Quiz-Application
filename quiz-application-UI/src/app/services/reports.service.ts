@@ -11,7 +11,7 @@ export class ReportsService {
   constructor(private http:HttpClient) { }
 
   // URL:String = "http://localhost:3000/";
-   URL:String = "http://65.1.106.176:5000";
+   URL:String = "http://65.1.106.176:5000/";
 
   // attempted exam
   attemptedExams(body:any):Observable<any>{ // returns the Observable of type any

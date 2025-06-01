@@ -11,7 +11,7 @@ export class HttpService {
   constructor(private http:HttpClient) { }
 
   // URL:String = "http://localhost:3000/";
-  URL:String = "http://65.1.106.176:5000";
+  URL:String = "http://65.1.106.176:5000/";
 
   // =============================================================Exam Http Methods===============================================================/
   
