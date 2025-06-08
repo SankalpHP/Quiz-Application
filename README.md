@@ -66,7 +66,7 @@ Make sure the following are installed on your system:
    http://localhost:4200
    
 ## ⚙️ Folder Structure
-   ### Frontend (Angular)
+   ### 📁 Frontend (Angular)
 ```
 quiz-application-UI/
 ├── .angular/
@@ -114,7 +114,7 @@ quiz-application-UI/
 ├── tsconfig.spec.json
 
 ```
-### Backend (node.js)
+### 📁 Backend (node.js)
 ```
 QUIZ-APPLICATION-BE/
 ├── .vscode / # VSCode workspace settings (optional)
@@ -128,7 +128,7 @@ QUIZ-APPLICATION-BE/
 ├── package.json # Project metadata and dependencies
 ├── package-lock.json # Auto-generated lockfile for npm dependencies
 ```
-## API Endpoints
+## 📡 API Endpoints
    ### Exam attempted by user
    ```bash
       POST attempted/attemptedExam
@@ -209,6 +209,6 @@ QUIZ-APPLICATION-BE/
    ```bash
       GET quiz/:examId
    ```
-## Author
+## 👨‍💻 Author
   *Sankalp Selokar*
-  *Feel free to connect with me at selokarsankalp@gmail.com*. 
+  *Feel free to connect with me at 📧 selokarsankalp@gmail.com*. 
