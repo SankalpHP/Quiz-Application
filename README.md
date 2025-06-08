@@ -2,7 +2,10 @@
 
 This is a full-stack **Quiz Application** that allows users to take timed multiple-choice exams and view performance reports, while administrators can manage exams and monitor user activity. The application includes secure authentication and role-based access, offering tailored functionality for users and admins.
 
-## 🚀 Features
+# 🚀 Live Demo
+ *You can check out the live demo of the project here:*👉 [Quiz Project Demo](http://65.1.106.176:81/home).
+
+## ✨ Features
 
 ### 👤 User Features
 - ✅ **Take Exams:** Solve MCQs from various exams within a set time limit.
