@@ -47,5 +47,5 @@ This is a full-stack **Quiz Application** that allows users to take timed multip
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/SankalpHP/Movies-App.git
+   git clone https://github.com/SankalpHP/Quiz-Application.git
    cd your-repo
