@@ -28,6 +28,7 @@ This is a full-stack **Quiz Application** that allows users to take timed multip
 - Bootstrap
 - JavaScript
 - TypeScript
+- Angular
 
 ### 🔌 Backend:
 - Node.js
